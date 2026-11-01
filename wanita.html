@@ -1,6 +1,6 @@
+
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +25,7 @@
             background: white;
             padding: 25px;
             border-radius: 14px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, .06);
+            box-shadow: 0 5px 25px rgba(0,0,0,.06);
         }
 
         h2 {
@@ -47,8 +47,7 @@
             font-size: 14px;
         }
 
-        input,
-        textarea {
+        input, textarea {
             width: 100%;
             padding: 13px;
             border: 1px solid #ddd;
@@ -58,8 +57,7 @@
             outline: none;
         }
 
-        input:focus,
-        textarea:focus {
+        input:focus, textarea:focus {
             border-color: #16845b;
         }
 
@@ -111,68 +109,74 @@
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h2>Generator Undangan WhatsApp</h2>
+    <h2>Generator Undangan WhatsApp</h2>
 
-        <p class="description">
-            Masukkan nama penerima undangan. Sistem akan
-            otomatis membuat teks undangan beserta link
-            personal yang siap disalin ke WhatsApp.
-        </p>
+    <p class="description">
+        Masukkan nama penerima undangan. Sistem akan
+        otomatis membuat teks undangan beserta link
+        personal yang siap disalin ke WhatsApp.
+    </p>
 
-        <label>Nama Penerima Undangan</label>
-        <input type="text" id="nama" placeholder="Contoh: Bapak Andi dan Keluarga" value="Melan dan Pasangan"
-            oninput="generate()">
+    <label>Nama Penerima Undangan</label>
 
-        <label>Hasil Undangan WhatsApp</label>
+    <input
+        type="text"
+        id="nama"
+        placeholder="Contoh: Bapak Andi dan Keluarga"
+        value="Melan dan Pasangan"
+        oninput="generate()"
+    >
 
-        <textarea id="hasil" readonly></textarea>
+    <label>Hasil Undangan WhatsApp</label>
 
-        <button class="copy-btn" onclick="copyInvitation()">
-            Salin Undangan
-        </button>
+    <textarea id="hasil" readonly></textarea>
 
-        <button class="reset-btn" onclick="resetForm()">
-            Reset Nama
-        </button>
+    <button class="copy-btn" onclick="copyInvitation()">
+        Salin Undangan
+    </button>
 
-        <div id="status"></div>
+    <button class="reset-btn" onclick="resetForm()">
+        Reset Nama
+    </button>
 
-    </div>
+    <div id="status"></div>
 
-    <script>
+</div>
 
-        function generate() {
+<script>
 
-            const nama = document.getElementById("nama").value.trim();
+function generate() {
 
-            const encodedName = encodeURIComponent(nama)
-                .replace(/%20/g, "+");
+    const nama = document.getElementById("nama").value.trim();
 
-            const link =
-                "https://invitystudio.ct.ws/pawiwahan_dewa_dan_desak/?to="
-                + encodedName;
+    const encodedName = encodeURIComponent(nama)
+        .replace(/%20/g, "+");
 
-            const teks = `*Om Swastyastu*
+    const link =
+        "https://invitystudio.ct.ws/pawiwahan-desak_dan_dewa/?to="
+        + encodedName;
+
+    const teks = `*Om Swastyastu*
 
 *UNDANGAN PAWIWAHAN*
-_Dewa Nyoman Murdiana & Desak Kayan Witriani_
+_Desak Kayan Witriani & Dewa Nyoman Murdiana_
 
 Kepada Yth.
 *${nama || "[Nama Penerima]"}*
 
 Atas asung kertha wara nugraha Ida Sang Hyang Widhi Wasa, dengan penuh kebahagiaan dan rasa syukur, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk menghadiri upacara Pawiwahan kami:
 
-*Dewa Nyoman Murdiana*
-Putra dari Bapak Dewa Ketut Wijana
-dan Ibu Desak Ketut Murni
-
-_dengan_
-
 *Desak Kayan Witriani*
 Putri dari Bapak Dewa Made Abasan
 dan Ibu Desak Made Jawe
+
+_dengan_
+
+*Dewa Nyoman Murdiana*
+Putra dari Bapak Dewa Ketut Wijana
+dan Ibu Desak Ketut Murni
 
 *WAKTU DAN TEMPAT ACARA*
 
@@ -202,40 +206,42 @@ Undangan digital ini merupakan undangan resmi dari kami. Mengingat keterbatasan 
 
 Kami yang berbahagia,
 
-*Dewa & Desak*
+*Desak & Dewa*
 Beserta keluarga besar
 
 *Om Shanti, Shanti, Shanti Om*`;
 
-            document.getElementById("hasil").value = teks;
-        }
+    document.getElementById("hasil").value = teks;
+}
 
-        async function copyInvitation() {
+async function copyInvitation() {
 
-            const hasil = document.getElementById("hasil");
+    const hasil = document.getElementById("hasil");
 
-            try {
-                await navigator.clipboard.writeText(hasil.value);
-            } catch (error) {
-                hasil.select();
-                document.execCommand("copy");
-            }
+    try {
+        await navigator.clipboard.writeText(hasil.value);
+    } catch (error) {
+        hasil.select();
+        document.execCommand("copy");
+    }
 
-            document.getElementById("status").textContent =
-                "Undangan berhasil disalin. Silakan tempel di WhatsApp.";
-        }
+    document.getElementById("status").textContent =
+        "Undangan berhasil disalin. Silakan tempel di WhatsApp.";
+}
 
-        function resetForm() {
-            document.getElementById("nama").value = "";
-            generate();
-            document.getElementById("status").textContent = "";
-        }
+function resetForm() {
 
-        // Generate otomatis saat halaman dibuka
-        generate();
+    document.getElementById("nama").value = "";
 
-    </script>
+    generate();
+
+    document.getElementById("status").textContent = "";
+}
+
+// Generate otomatis saat halaman dibuka
+generate();
+
+</script>
 
 </body>
-
 </html>
