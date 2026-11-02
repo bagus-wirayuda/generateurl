@@ -1,195 +1,94 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator Undangan WhatsApp</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            padding: 30px 15px;
-            font-family: Arial, sans-serif;
-            background: #f3f5f9;
-            color: #252525;
-        }
-
-        .container {
-            max-width: 650px;
-            margin: auto;
-            background: white;
-            padding: 25px;
-            border-radius: 14px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, .06);
-        }
-
-        h2 {
-            margin-top: 0;
-            font-size: 23px;
-        }
-
-        .description {
-            color: #777;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin: 18px 0 8px;
-            font-size: 14px;
-        }
-
-        input,
-        textarea {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            outline: none;
-        }
-
-        input:focus,
-        textarea:focus {
-            border-color: #16845b;
-        }
-
-        textarea {
-            min-height: 400px;
-            resize: vertical;
-            line-height: 1.6;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            margin-top: 12px;
-        }
-
-        .copy-btn {
-            background: #16845b;
-            color: white;
-        }
-
-        .copy-btn:hover {
-            background: #106d49;
-        }
-
-        .reset-btn {
-            background: #eeeeee;
-            color: #333;
-        }
-
-        .info {
-            font-size: 12px;
-            color: #777;
-            margin-top: 8px;
-        }
-
-        #status {
-            text-align: center;
-            font-size: 13px;
-            margin-top: 12px;
-            color: #16845b;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generator Undangan Pihak Pria</title>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:28px 16px;background:#f4f0f3;color:#30262d;font-family:Arial,sans-serif}.container{max-width:760px;margin:auto;background:#fffdf9;padding:28px;border:1px solid #e6dce2;border-radius:16px;box-shadow:0 8px 32px #4930430d}.eyebrow{margin:0 0 10px;color:#875f38;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}h1{margin:0 0 10px;font-size:25px;line-height:1.3}.description{margin:0 0 24px;color:#746670;font-size:14px;line-height:1.7}label{display:block;margin:20px 0 8px;font-size:14px;font-weight:700}input,textarea{display:block;width:100%;padding:13px;border:1px solid #d9ced5;border-radius:9px;background:#fff;color:#30262d;font:15px/1.65 Arial,sans-serif}input:focus,textarea:focus{outline:2px solid #d5bfcc;outline-offset:2px;border-color:#633750}textarea{min-height:540px;resize:vertical}#tautan{font-size:13px;overflow-wrap:anywhere;background:#f8f5f7}.info{margin:8px 0 0;color:#746670;font-size:12px;line-height:1.6}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}button{flex:1 1 180px;min-height:46px;padding:13px 16px;border:1px solid #633750;border-radius:9px;background:#633750;color:#fff;font:700 14px/1.4 Arial,sans-serif;cursor:pointer}button:hover{background:#80516e}button:focus-visible{outline:3px solid #cba878;outline-offset:3px}button.secondary{background:#fff;color:#633750}button.secondary:hover{background:#f1e9ee}button.reset{flex:1 1 100%;border-color:#e6dce2;background:#f1ecef;color:#594653}#status{min-height:24px;margin:14px 0 0;font-size:13px;line-height:1.6;color:#633750}@media(max-width:480px){body{padding:14px 10px}.container{padding:22px 18px}h1{font-size:22px}textarea{min-height:500px}.actions button{flex-basis:100%}}
+</style>
 </head>
-
 <body>
+<main class="container">
+<p class="eyebrow">Pawiwahan · Dewa &amp; Desak</p>
+<h1>Generator Undangan Pihak Pria</h1>
+<p class="description">Masukkan nama tamu untuk membuat pesan undangan WhatsApp dan tautan personal. Hasil langsung diperbarui dan siap disalin.</p>
+<label for="nama">Nama penerima undangan</label>
+<input type="text" id="nama" value="Melan Dan Pasangan" maxlength="100" autocomplete="off" placeholder="Contoh: Bapak Made dan Keluarga" aria-describedby="nama-info">
+<p class="info" id="nama-info">Spasi pada tautan otomatis menjadi tanda +. Contoh: ?to=Melan+Dan+Pasangan.</p>
+<label for="tautan">Tautan undangan personal</label>
+<input type="text" id="tautan" readonly spellcheck="false">
+<label for="hasil">Hasil undangan WhatsApp</label>
+<textarea id="hasil" readonly spellcheck="false"></textarea>
+<div class="actions">
+<button type="button" id="salin-undangan">Salin Undangan</button>
+<button type="button" class="secondary" id="salin-tautan">Salin Tautan</button>
+<button type="button" class="reset" id="reset">Reset Nama</button>
+</div>
+<p id="status" role="status" aria-live="polite"></p>
+</main>
+<script>
+'use strict';
+const config = {
+  "baseUrl": "https://invitystudio.ct.ws/pawiwahan-dewa-dan-desak/",
+  "couple": "Dewa & Desak",
+  "people": [
+    {
+      "name": "Dewa Nyoman Murdiana",
+      "line1": "Putra dari Bapak Dewa Ketut Wijana",
+      "line2": "dan Ibu Desak Ketut Murni"
+    },
+    {
+      "name": "Desak Kayan Witriani",
+      "line1": "Putri dari Bapak Dewa Made Abasan",
+      "line2": "dan Ibu Desak Made Jawe"
+    }
+  ],
+  "events": [
+    {
+      "date": "Selasa, 10 November 2026",
+      "time": "07.00 – 15.50 WITA",
+      "venue": "Kediaman Mempelai Wanita",
+      "address": "Desa Rahanggada\nJln. Kelapi, dekat lapangan sepak bola\nKec. Tanggetada"
+    },
+    {
+      "date": "Rabu, 11 November 2026",
+      "time": "07.00 WITA – selesai",
+      "venue": "Kediaman Mempelai Pria",
+      "address": "Desa Wunggoloko\nKelurahan Atula\nKecamatan Ladonggi"
+    }
+  ]
+};
+const nama = document.getElementById('nama');
+const hasil = document.getElementById('hasil');
+const tautan = document.getElementById('tautan');
+const status = document.getElementById('status');
 
-    <div class="container">
-
-        <h2>Generator Undangan WhatsApp</h2>
-
-        <p class="description">
-            Masukkan nama penerima undangan. Sistem akan
-            otomatis membuat teks undangan beserta link
-            personal yang siap disalin ke WhatsApp.
-        </p>
-
-        <label>Nama Penerima Undangan</label>
-
-        <input type="text" id="nama" placeholder="Contoh: Bapak Andi dan Keluarga" value="Melan dan Pasangan"
-            oninput="generate()">
-
-        <label>Hasil Undangan WhatsApp</label>
-
-        <textarea id="hasil" readonly></textarea>
-
-        <button class="copy-btn" onclick="copyInvitation()">
-            Salin Undangan
-        </button>
-
-        <button class="reset-btn" onclick="resetForm()">
-            Reset Nama
-        </button>
-
-        <div id="status"></div>
-
-    </div>
-
-    <script>
-
-        function generate() {
-
-            const nama = document.getElementById("nama").value.trim();
-
-            const encodedName = encodeURIComponent(nama)
-                .replace(/%20/g, "+");
-
-            const link =
-                "https://invitystudio.ct.ws/pawiwahan-desak_dan_dewa/?to="
-                + encodedName;
-
-            const teks = `*Om Swastyastu*
+function guestQuery(value) {
+  // Normal names stay readable: ?to=Melan+Dan+Pasangan.
+  // Escape query delimiters so names containing & or + remain complete.
+  return value.replace(/[%+&#=?]/g, character => encodeURIComponent(character)).replace(/ /g, '+');
+}
+function generate() {
+  const guest = nama.value.trim().replace(/\s+/g, ' ').slice(0, 100) || 'Tamu Undangan';
+  const link = config.baseUrl + '?to=' + guestQuery(guest);
+  const people = config.people.map(person => `*${person.name}*\n${person.line1}\n${person.line2}`).join('\n\n_dengan_\n\n');
+  const events = config.events.map(event => `*${event.date}*\nPukul ${event.time}\n\nTempat:\n${event.venue}\n${event.address}`).join('\n\n');
+  hasil.value = `*Om Swastyastu*
 
 *UNDANGAN PAWIWAHAN*
-_Desak Kayan Witriani & Dewa Nyoman Murdiana_
+_${config.people.map(person => person.name).join(' & ')}_
 
 Kepada Yth.
-*${nama || "[Nama Penerima]"}*
+*${guest}*
 
 Atas asung kertha wara nugraha Ida Sang Hyang Widhi Wasa, dengan penuh kebahagiaan dan rasa syukur, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk menghadiri upacara Pawiwahan kami:
 
-*Desak Kayan Witriani*
-Putri dari Bapak Dewa Made Abasan
-dan Ibu Desak Made Jawe
-
-_dengan_
-
-*Dewa Nyoman Murdiana*
-Putra dari Bapak Dewa Ketut Wijana
-dan Ibu Desak Ketut Murni
+${people}
 
 *WAKTU DAN TEMPAT ACARA*
 
-*Selasa, 10 November 2026*
-Pukul 07.00–15.50 WITA
-
-Tempat:
-Kediaman Mempelai Wanita
-Desa Rahanggada, Jln. Kelapi, dekat Lapangan Sepak Bola, Kecamatan Tanggetada.
-
-*Rabu, 11 November 2026*
-Pukul 07.00 WITA – selesai
-
-Tempat:
-Kediaman Mempelai Pria
-Desa Wunggoloko, Kelurahan Atula, Kecamatan Ladonggi.
+${events}
 
 *UNDANGAN DIGITAL*
 
@@ -203,43 +102,31 @@ Undangan digital ini merupakan undangan resmi dari kami. Mengingat keterbatasan 
 
 Kami yang berbahagia,
 
-*Desak & Dewa*
+*${config.couple}*
 Beserta keluarga besar
 
 *Om Shanti, Shanti, Shanti Om*`;
-
-            document.getElementById("hasil").value = teks;
-        }
-
-        async function copyInvitation() {
-
-            const hasil = document.getElementById("hasil");
-
-            try {
-                await navigator.clipboard.writeText(hasil.value);
-            } catch (error) {
-                hasil.select();
-                document.execCommand("copy");
-            }
-
-            document.getElementById("status").textContent =
-                "Undangan berhasil disalin. Silakan tempel di WhatsApp.";
-        }
-
-        function resetForm() {
-
-            document.getElementById("nama").value = "";
-
-            generate();
-
-            document.getElementById("status").textContent = "";
-        }
-
-        // Generate otomatis saat halaman dibuka
-        generate();
-
-    </script>
-
+  tautan.value = link;
+  status.textContent = '';
+}
+async function copyText(field, successMessage) {
+  status.textContent = '';
+  try {
+    if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
+    await navigator.clipboard.writeText(field.value);
+    status.textContent = successMessage;
+  } catch {
+    field.focus(); field.select(); field.setSelectionRange(0, field.value.length);
+    let copied = false;
+    try { copied = document.execCommand('copy'); } catch { /* Manual copy stays available. */ }
+    status.textContent = copied ? successMessage : 'Teks sudah dipilih. Tekan Ctrl+C, atau tekan dan tahan teks lalu pilih Salin di ponsel.';
+  }
+}
+nama.addEventListener('input', generate);
+document.getElementById('salin-undangan').addEventListener('click', () => copyText(hasil, 'Undangan berhasil disalin. Silakan tempel di WhatsApp.'));
+document.getElementById('salin-tautan').addEventListener('click', () => copyText(tautan, 'Tautan undangan berhasil disalin.'));
+document.getElementById('reset').addEventListener('click', () => { nama.value = ''; generate(); nama.focus(); });
+generate();
+</script>
 </body>
-
 </html>
