@@ -12,7 +12,7 @@
 <main class="container">
 <p class="eyebrow">Pawiwahan · Desak &amp; Dewa</p>
 <h1>Generator Undangan Pihak Wanita</h1>
-<p class="description">Masukkan nama tamu untuk membuat pesan undangan WhatsApp dan tautan personal. Hasil langsung diperbarui dan siap disalin.</p>
+<p class="description">Masukkan nama tamu untuk membuat pesan undangan WhatsApp dan tautan personal. Nama, keluarga, dan lokasi pihak wanita ditampilkan terlebih dahulu.</p>
 <label for="nama">Nama penerima undangan</label>
 <input type="text" id="nama" value="Melan Dan Pasangan" maxlength="100" autocomplete="off" placeholder="Contoh: Bapak Made dan Keluarga" aria-describedby="nama-info">
 <p class="info" id="nama-info">Spasi pada tautan otomatis menjadi tanda +. Contoh: ?to=Melan+Dan+Pasangan.</p>
@@ -31,17 +31,20 @@
 'use strict';
 const config = {
   "baseUrl": "https://invitystudio.ct.ws/pawiwahan-desak-dan-dewa/",
-  "couple": "Desak & Dewa",
   "people": [
     {
       "name": "Desak Kayan Witriani",
       "line1": "Putri dari Bapak Dewa Made Abasan",
-      "line2": "dan Ibu Desak Made Jawe"
+      "line2": "dan Ibu Desak Made Jawe",
+      "side": "wanita",
+      "shortName": "Desak"
     },
     {
       "name": "Dewa Nyoman Murdiana",
       "line1": "Putra dari Bapak Dewa Ketut Wijana",
-      "line2": "dan Ibu Desak Ketut Murni"
+      "line2": "dan Ibu Desak Ketut Murni",
+      "side": "pria",
+      "shortName": "Dewa"
     }
   ],
   "events": [
@@ -49,15 +52,18 @@ const config = {
       "date": "Selasa, 10 November 2026",
       "time": "07.00 – 15.50 WITA",
       "venue": "Kediaman Mempelai Wanita",
-      "address": "Desa Rahanggada\nJln. Kelapi, dekat lapangan sepak bola\nKec. Tanggetada"
+      "address": "Desa Rahanggada\nJln. Kelapi, dekat lapangan sepak bola\nKec. Tanggetada",
+      "side": "wanita"
     },
     {
       "date": "Rabu, 11 November 2026",
       "time": "07.00 WITA – selesai",
       "venue": "Kediaman Mempelai Pria",
-      "address": "Desa Wunggoloko\nKelurahan Atula\nKecamatan Ladonggi"
+      "address": "Desa Wunggoloko\nKelurahan Atula\nKecamatan Ladonggi",
+      "side": "pria"
     }
-  ]
+  ],
+  "hostSide": "wanita"
 };
 const nama = document.getElementById('nama');
 const hasil = document.getElementById('hasil');
@@ -72,17 +78,20 @@ function guestQuery(value) {
 function generate() {
   const guest = nama.value.trim().replace(/\s+/g, ' ').slice(0, 100) || 'Tamu Undangan';
   const link = config.baseUrl + '?to=' + guestQuery(guest);
-  const people = config.people.map(person => `*${person.name}*\n${person.line1}\n${person.line2}`).join('\n\n_dengan_\n\n');
-  const events = config.events.map(event => `*${event.date}*\nPukul ${event.time}\n\nTempat:\n${event.venue}\n${event.address}`).join('\n\n');
+  const primaryFirst = items => [...items].sort((a, b) => Number(a.side !== config.hostSide) - Number(b.side !== config.hostSide));
+  const orderedPeople = primaryFirst(config.people);
+  const couple = orderedPeople.map(person => person.shortName).join(' & ');
+  const people = orderedPeople.map(person => `*${person.name}*\n${person.line1}\n${person.line2}`).join('\n\n_dengan_\n\n');
+  const events = primaryFirst(config.events).map(event => `*ACARA PIHAK ${event.side.toUpperCase()}*\n*${event.date}*\nPukul ${event.time}\n\nTempat:\n${event.venue}\n${event.address}`).join('\n\n');
   hasil.value = `*Om Swastyastu*
 
 *UNDANGAN PAWIWAHAN*
-_${config.people.map(person => person.name).join(' & ')}_
+_${orderedPeople.map(person => person.name).join(' & ')}_
 
 Kepada Yth.
 *${guest}*
 
-Atas asung kertha wara nugraha Ida Sang Hyang Widhi Wasa, dengan penuh kebahagiaan dan rasa syukur, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk menghadiri upacara Pawiwahan kami:
+Atas asung kertha wara nugraha Ida Sang Hyang Widhi Wasa, dengan penuh kebahagiaan dan rasa syukur, kami keluarga mempelai ${config.hostSide} bermaksud mengundang Bapak/Ibu/Saudara/i untuk menghadiri upacara Pawiwahan ${config.hostSide === 'pria' ? 'putra' : 'putri'} kami:
 
 ${people}
 
@@ -96,14 +105,14 @@ Untuk informasi selengkapnya mengenai acara, silakan membuka tautan undangan ber
 
 ${link}
 
-Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir serta memberikan doa restu untuk mengiringi langkah kami dalam membangun kehidupan rumah tangga.
+Merupakan suatu kehormatan dan kebahagiaan bagi kami sekeluarga apabila Bapak/Ibu/Saudara/i berkenan hadir serta memberikan doa restu untuk mengiringi langkah kedua mempelai dalam membangun kehidupan rumah tangga.
 
 Undangan digital ini merupakan undangan resmi dari kami. Mengingat keterbatasan jarak dan waktu, dengan segala kerendahan hati, kami menyampaikan undangan ini melalui media online tanpa mengurangi rasa hormat dan penghargaan kami kepada Bapak/Ibu/Saudara/i.
 
 Kami yang berbahagia,
 
-*${config.couple}*
-Beserta keluarga besar
+*${couple}*
+Beserta keluarga besar mempelai ${config.hostSide}
 
 *Om Shanti, Shanti, Shanti Om*`;
   tautan.value = link;
